@@ -1,0 +1,123 @@
+<div>
+	<fieldset>
+		<legend>Interview</legend>
+		<div>
+			<div class="form-group">
+				<label for="interview.date">Date</label>
+				<input type="datetime-local" id="interview.date" name="interview.date" class="form-control" />
+			</div>
+			<div class="form-check">
+				<input type="checkbox" id="interview.hire" name="interview.hire" class="form-check-input" />
+				<label class="form-check-label" for="interview.hire">Hire</label>
+			</div>
+			<div class="form-group">
+				<label for="interview.interviewer">Interviewer</label>
+				<input type="text" id="interview.interviewer" name="interview.interviewer" class="form-control" value="" />
+			</div>
+			<div class="form-group">
+				<label for="interview.salary">Salary</label>
+				<input type="number" class="form-control" id="interview.salary" name="interview.salary" step="1" value="" />
+			</div>
+			<div class="form-group">
+				<label for="interview.skills">Skills</label>
+				<input type="text" id="interview.skills" name="interview.skills" class="form-control" value="" />
+			</div>
+		</div>
+	</fieldset>
+	<fieldset disabled>
+		<legend>Candidate</legend>
+		<div>
+			<fieldset disabled>
+				<legend>Address</legend>
+				<div>
+					<div class="form-group">
+						<label for="candidate.address.city">City</label>
+						<input type="text" id="candidate.address.city" name="candidate.address.city" class="form-control" disabled value="" />
+					</div>
+					<div class="form-group">
+						<label for="candidate.address.country">Country</label>
+						<input type="text" id="candidate.address.country" name="candidate.address.country" class="form-control" disabled value="" />
+					</div>
+					<div class="form-group">
+						<label for="candidate.address.state">State</label>
+						<input type="text" id="candidate.address.state" name="candidate.address.state" class="form-control" disabled value="" />
+					</div>
+					<div class="form-group">
+						<label for="candidate.address.street">Street</label>
+						<input type="text" id="candidate.address.street" name="candidate.address.street" class="form-control" disabled value="" />
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group">
+				<label for="candidate.email">Email</label>
+				<input type="text" id="candidate.email" name="candidate.email" class="form-control" disabled value="" />
+			</div>
+			<div class="form-group">
+				<label for="candidate.name">Name</label>
+				<input type="text" id="candidate.name" name="candidate.name" class="form-control" disabled value="" />
+			</div>
+		</div>
+	</fieldset>
+	<script>
+		/* Utility function that fills the form with the data received from the kogito runtime */
+		function setFormData(data) {
+			if (!data) {
+				return;
+			}
+			document.getElementById("interview.date").value = data?.interview?.date
+				? new Date(data?.interview?.date).toISOString().slice(0, 16)
+				: "";
+			document.getElementById("interview.hire").checked = data?.interview?.hire;
+			document.getElementById("interview.interviewer").value = data?.interview?.interviewer ?? "";
+			document.getElementById("interview.salary").value = data?.interview?.salary ?? "";
+			document.getElementById("interview.skills").value = data?.interview?.skills ?? "";
+			document.getElementById("candidate.address.city").value = data?.candidate?.address?.city ?? "";
+			document.getElementById("candidate.address.country").value = data?.candidate?.address?.country ?? "";
+			document.getElementById("candidate.address.state").value = data?.candidate?.address?.state ?? "";
+			document.getElementById("candidate.address.street").value = data?.candidate?.address?.street ?? "";
+			document.getElementById("candidate.email").value = data?.candidate?.email ?? "";
+			document.getElementById("candidate.name").value = data?.candidate?.name ?? "";
+		}
+		/* Utility function to generate the expected form output as a json object */
+		function getFormData() {
+			const formData = {};
+			formData.interview = {};
+			formData.interview.date = document.getElementById("interview.date").value;
+			formData.interview.hire = document.getElementById("interview.hire").checked;
+			formData.interview.interviewer = document.getElementById("interview.interviewer").value;
+			formData.interview.salary = Number(document.getElementById("interview.salary").value);
+			formData.interview.skills = document.getElementById("interview.skills").value;
+			return formData;
+		}
+		/* Utility function to validate the form on the 'beforeSubmit' Lifecycle Hook */
+		function validateForm() {}
+		/*
+            Call to the Kogito console form engine. It will establish the connection with the console embeding the form
+            and return an instance of FormAPI that will allow hook custom code into the form lifecycle.
+            The `window.Form.openForm` call expects an object with the following entries:
+                - onOpen: Callback that will be called after the connection with the console is established. The callback
+                will receive the following arguments:
+                    - data: the data to be bound into the form
+                    - ctx: info about the context where the form is being displayed. This will contain information such as the form JSON Schema, process/task, user...
+        */
+		const formApi = window.Form.openForm({
+			onOpen: (data, context) => {
+				setFormData(data);
+			},
+		});
+		/*
+            Form Lifecycle Hook that will be executed before the form is submitted.
+            Throwing an error will stop the form submit. Usually should be used to validate the form.
+        */
+		formApi.beforeSubmit = () => {
+			validateForm();
+		};
+		/*
+            Form Lifecycle Hook that will be executed after the form is submitted.
+            It will receive a response object containing the `type` flag indicating if the submit has been successful and `info` with extra information about the submit result.
+        */
+		formApi.afterSubmit = (response) => {};
+		/* Generates the expected form output object to be posted */
+		formApi.getFormData = () => getFormData();
+	</script>
+</div>

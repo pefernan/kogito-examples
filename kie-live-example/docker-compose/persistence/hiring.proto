@@ -1,0 +1,57 @@
+syntax = "proto2"; 
+package org.kie.kogito.hr.hiring; 
+import "kogito-index.proto";
+import "kogito-types.proto";
+option kogito_model = "Hiring";
+option kogito_id = "hiring";
+
+/* @Indexed */ 
+message Address { 
+	option java_package = "org.kie.kogito.hr";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string city = 1; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string country = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string state = 3; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string street = 4; 
+}
+/* @Indexed */ 
+message Candidate { 
+	option java_package = "org.kie.kogito.hr";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional Address address = 1; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string email = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string name = 3; 
+}
+/* @Indexed */ 
+message Hiring { 
+	option java_package = "org.kie.kogito.hr";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="") */ 
+	optional Candidate candidate = 1; 
+	/* @Field(index = Index.YES, store = Store.YES) @SortableField */ 
+	optional string id = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField
+ @VariableInfo(tags="") */ 
+	optional Interview interview = 3; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional org.kie.kogito.index.model.KogitoMetadata metadata = 4; 
+}
+/* @Indexed */ 
+message Interview { 
+	option java_package = "org.kie.kogito.hr";
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional kogito.Date date = 1; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional bool hire = 2; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string interviewer = 3; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional int32 salary = 4; 
+	/* @Field(index = Index.NO, store = Store.YES) @SortableField */ 
+	optional string skills = 5; 
+}
