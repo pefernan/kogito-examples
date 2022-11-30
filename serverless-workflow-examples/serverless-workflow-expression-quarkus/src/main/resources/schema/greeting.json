@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Greeting",
+  "description": "Schema for the greeting test",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the person to greet"
+    },
+    "language": {
+      "type": "string",
+      "description": "Language to use",
+    }
+  }
+}
