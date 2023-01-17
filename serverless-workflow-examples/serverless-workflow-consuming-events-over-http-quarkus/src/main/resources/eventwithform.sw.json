@@ -1,9 +1,10 @@
 {
-  "id": "startRESTNoForm",
+  "id": "startRESTWithForm",
   "version": "1.0",
   "expressionLang": "jsonpath",
-  "name": "Workflow test - REST No Form",
+  "name": "Workflow test - Event",
   "description": "An example of how to consume events over HTTP",
+  "dataInputSchema" : "schema/schema.json",
   "start": "printWaitMessage",
   "events": [
     {

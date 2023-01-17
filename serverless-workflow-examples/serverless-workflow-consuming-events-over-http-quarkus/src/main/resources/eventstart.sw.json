@@ -1,13 +1,22 @@
 {
-  "id": "startRESTNoForm",
+  "id": "startWithCloudEvent",
   "version": "1.0",
   "expressionLang": "jsonpath",
-  "name": "Workflow test - REST No Form",
+  "name": "Workflow test - Rest Form",
   "description": "An example of how to consume events over HTTP",
-  "start": "printWaitMessage",
   "events": [
     {
-      "name": "moveEvent",
+      "name": "start",
+      "source": "/from/quarkus-dev-ui",
+      "type": "start"
+    },
+    {
+      "name": "startfromtopic",
+      "source": "topic",
+      "type": "startfromtopic"
+    },
+    {
+      "name": "moveEvent2",
       "source": "",
       "type": "move"
     }
@@ -19,19 +28,25 @@
       "operation": "sysout"
     }
   ],
+  "start": "printWaitMessage",
   "states": [
     {
       "name": "printWaitMessage",
-      "type": "operation",
-      "actions": [
+      "type": "event",
+      "onEvents": [
         {
-          "name": "printBeforeEvent",
-          "functionRef": {
-            "refName": "printMessage",
-            "arguments": {
-              "message": "$[*]"
+          "eventRefs": ["start"],
+          "actions": [
+            {
+              "name": "printBeforeEvent",
+              "functionRef": {
+                "refName": "printMessage",
+                "arguments": {
+                  "message": "$[*]"
+                }
+              }
             }
-          }
+          ]
         }
       ],
       "transition": "waitForEvent"
@@ -42,7 +57,7 @@
        "onEvents": [
         {
           "eventRefs": [
-            "moveEvent"
+            "moveEvent2"
           ],
           "actions": [ 
           {
