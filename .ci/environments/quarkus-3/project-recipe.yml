@@ -22,3 +22,12 @@ recipeList:
   - org.openrewrite.maven.ChangePropertyValue:
       key: version.io.quarkus.camel
       newValue: 3.0.0-M1
+  # TODO to update to Final version once available
+  - org.openrewrite.maven.ChangePropertyValue:
+      key: version.com.github.tomakehurst.wiremock
+      newValue: 3.0.0-beta-8
+  - org.openrewrite.maven.ChangeDependencyGroupIdAndArtifactId:
+      oldGroupId: com.github.tomakehurst
+      oldArtifactId: wiremock-jre8
+      newGroupId: com.github.tomakehurst
+      newArtifactId: wiremock
