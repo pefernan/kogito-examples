@@ -53,6 +53,8 @@ Map getMultijobPRConfig(JenkinsFolder jobFolder) {
     // For Quarkus 3, run only examples PR check
     if (EnvUtils.hasEnvironmentId(this, jobFolder.getEnvironmentName(), 'quarkus3')) {
         jobConfig.jobs.retainAll { it.id == 'kogito-examples' }
+    } else {
+        jobConfig.jobs.clear()
     }
 
     return jobConfig
