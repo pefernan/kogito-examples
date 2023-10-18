@@ -24,13 +24,15 @@ services:
       infinispan:
         condition: service_healthy
     volumes:
-      - ./../target/classes/META-INF/resources/persistence/protobuf:/home/kogito/data/protobufs/
+      - ./persistence:/home/kogito/data/protobufs/
     environment:
       QUARKUS_INFINISPAN_CLIENT_HOSTS: infinispan:11222
       QUARKUS_INFINISPAN_CLIENT_USE_AUTH: "false"
       QUARKUS_HTTP_CORS_ORIGINS: "/.*/"
       KOGITO_DATA_INDEX_PROPS: -Dkogito.protobuf.folder=/home/kogito/data/protobufs/
       KOGITO_DATA_INDEX_QUARKUS_PROFILE: "http-events-support"
+    extra_hosts:
+      - "kubernetes.docker.internal:host-gateway"
 
   jobs-service:
     container_name: jobs-service
@@ -45,7 +47,13 @@ services:
       QUARKUS_INFINISPAN_CLIENT_USE_AUTH: "false"
       QUARKUS_INFINISPAN_CLIENT_HOSTS: infinispan:11222
       QUARKUS_HTTP_CORS_ORIGINS: "/.*/"
-      KOGITO_DATA_INDEX_QUARKUS_PROFILE: "http-events-support"
+      QUARKUS_PROFILE: "http-events-support"
+      KOGITO_SERVICE_URL: http://jobs-service:8580
+      KOGITO_JOBS_SERVICE_HTTP_JOB_STATUS_CHANGE_EVENTS: true
+      MP_MESSAGING_OUTGOING_KOGITO_JOB_SERVICE_JOB_STATUS_EVENTS_HTTP_URL: http://data-index:8180/jobs
+    extra_hosts:
+      - "kubernetes.docker.internal:host-gateway"
+      - "data-index:host-gateway"
 
   kogito-example-service:
     container_name: kogito-example-service
@@ -53,9 +61,12 @@ services:
     profiles: [ "example", "all" ]
     ports:
       - "8080:8080"
+      - "5005:5005"
     depends_on:
       infinispan:
         condition: service_healthy
+    volumes:
+      - ./svg/:/home/kogito/data/svg/
     environment:
       QUARKUS_INFINISPAN_CLIENT_HOSTS: infinispan:11222
       QUARKUS_INFINISPAN_CLIENT_USE_AUTH: "false"
@@ -63,6 +74,10 @@ services:
       KOGITO_JOBS_SERVICE_URL: http://jobs-service:8580
       KOGITO_SERVICE_URL: http://${DOCKER_GATEWAY_HOST}:8080
       QUARKUS_HTTP_CORS_ORIGINS: "/.*/"
+      KOGITO_QUARKUS_JVM_PROPS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    extra_hosts:
+      - "data-index:host-gateway"
+      - "jobs-service:host-gateway"
 
   keycloak:
     container_name: keycloak

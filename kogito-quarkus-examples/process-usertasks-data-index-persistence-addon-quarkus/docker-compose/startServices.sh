@@ -24,11 +24,8 @@ if [ -n "$1" ]; then
   fi
 fi
 
-PROFILES=""
-
 for arg in "$@"
 do
-  echo $arg
    if [[ "$arg" == "all" ]];
    then
      PROFILES="all"
@@ -36,8 +33,7 @@ do
      then
        if [[("$arg" == "example") || ("$arg" == "consoles")]]
        then
-         PROFILES="${PROFILES}$arg,"
-         echo $PROFILES
+         PROFILES="$PROFILES$([[ ! -z $PROFILES ]] && echo "," || echo "")$arg"
        fi
    fi
 done

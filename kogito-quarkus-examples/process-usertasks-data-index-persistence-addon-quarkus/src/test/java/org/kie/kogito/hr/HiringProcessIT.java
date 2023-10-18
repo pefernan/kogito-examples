@@ -16,6 +16,7 @@
 package org.kie.kogito.hr;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class HiringProcessIT {
 
         Model m = hiringProcess.createModel();
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("candidate", new Candidate("jdoe", "jdoe@example.com", 30000, "Java, Kogito"));
+        parameters.put("candidate", new CandidateData("John", "Doe", "jdoe@example.com", 12, Arrays.asList("Java", "Kogito")));
         m.fromMap(parameters);
 
         ProcessInstance<?> processInstance = hiringProcess.createInstance(m);
@@ -83,5 +84,19 @@ public class HiringProcessIT {
         assertEquals(3, result.toMap().size());
         assertEquals(true, result.toMap().get("hr_approval"));
         assertEquals(false, result.toMap().get("it_approval"));
+    }
+
+    @Test
+    public void testCandidateNotMeetingRequirements() {
+        assertNotNull(hiringProcess);
+
+        Model m = hiringProcess.createModel();
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("candidate", new CandidateData("John", "Doe", "jdoe@example.com", 0, Collections.emptyList()));
+        m.fromMap(parameters);
+
+        ProcessInstance<?> processInstance = hiringProcess.createInstance(m);
+        processInstance.start();
+        assertEquals(org.kie.api.runtime.process.ProcessInstance.STATE_ACTIVE, processInstance.status());
     }
 }
