@@ -61,7 +61,6 @@ services:
     profiles: [ "example", "all" ]
     ports:
       - "8080:8080"
-      - "5005:5005"
     depends_on:
       infinispan:
         condition: service_healthy
@@ -70,11 +69,9 @@ services:
     environment:
       QUARKUS_INFINISPAN_CLIENT_HOSTS: infinispan:11222
       QUARKUS_INFINISPAN_CLIENT_USE_AUTH: "false"
-      KOGITO_DATAINDEX_HTTP_URL: http://data-index:8180
       KOGITO_JOBS_SERVICE_URL: http://jobs-service:8580
       KOGITO_SERVICE_URL: http://${DOCKER_GATEWAY_HOST}:8080
       QUARKUS_HTTP_CORS_ORIGINS: "/.*/"
-      KOGITO_QUARKUS_JVM_PROPS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     extra_hosts:
       - "data-index:host-gateway"
       - "jobs-service:host-gateway"
