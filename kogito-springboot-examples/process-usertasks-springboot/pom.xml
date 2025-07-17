@@ -47,6 +47,13 @@
       <type>pom</type>
       <scope>import</scope>
     </dependency>
+      <dependency>
+        <groupId>org.kie.kogito</groupId>
+        <artifactId>kogito-apps-bom</artifactId>
+        <version>${kogito.bom.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -56,6 +63,23 @@
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>org.kie</groupId>
+      <artifactId>kie-addons-springboot-persistence-jdbc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie</groupId>
+      <artifactId>kogito-addons-springboot-data-index-persistence-jpa</artifactId>
+    </dependency>
     <!-- jBPM -->
     <dependency>
       <groupId>org.jbpm</groupId>
