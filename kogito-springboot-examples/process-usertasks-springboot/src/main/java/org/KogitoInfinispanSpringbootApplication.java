@@ -16,13 +16,25 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.kie.kogito.tests;
+package org;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.env.Environment;
 
-@SpringBootApplication(scanBasePackages = { "org.kie.kogito.**", "org.acme.travels.**" })
+import jakarta.annotation.PostConstruct;
+
+@SpringBootApplication(scanBasePackages = { "org.kie.**", "org.acme.travels.**" })
 public class KogitoInfinispanSpringbootApplication {
+
+    @Autowired
+    private Environment env;
+
+    @PostConstruct
+    public void populateMovieCache() {
+        System.out.println(env.getProperty("spring.application.name"));
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(KogitoInfinispanSpringbootApplication.class, args);

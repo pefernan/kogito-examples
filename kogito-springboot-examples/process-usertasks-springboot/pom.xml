@@ -78,7 +78,12 @@
 
     <dependency>
       <groupId>org.kie</groupId>
-      <artifactId>kogito-addons-springboot-data-index-persistence-jpa</artifactId>
+      <artifactId>kogito-addons-springboot-data-index-jpa</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie</groupId>
+      <artifactId>kie-addons-springboot-process-svg</artifactId>
     </dependency>
     <!-- jBPM -->
     <dependency>
@@ -99,6 +104,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>${version.org.springframework.boot}</version>
+        <configuration>
+          <jvmArguments>
+            -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
+          </jvmArguments>
+        </configuration>
         <executions>
           <execution>
             <goals>

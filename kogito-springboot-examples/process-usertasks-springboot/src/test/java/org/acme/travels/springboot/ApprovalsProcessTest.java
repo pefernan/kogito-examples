@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.KogitoInfinispanSpringbootApplication;
 import org.acme.travels.Address;
 import org.acme.travels.Traveller;
 import org.junit.jupiter.api.Test;
@@ -34,7 +35,6 @@ import org.kie.kogito.auth.SecurityPolicy;
 import org.kie.kogito.process.Process;
 import org.kie.kogito.process.ProcessInstance;
 import org.kie.kogito.process.WorkItem;
-import org.kie.kogito.tests.KogitoInfinispanSpringbootApplication;
 import org.kie.kogito.usertask.UserTaskInstance;
 import org.kie.kogito.usertask.UserTasks;
 import org.kie.kogito.usertask.impl.lifecycle.DefaultUserTaskLifeCycle;
