@@ -83,6 +83,11 @@
 
     <dependency>
       <groupId>org.kie</groupId>
+      <artifactId>kie-addons-springboot-source-files</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kie</groupId>
       <artifactId>kie-addons-springboot-process-svg</artifactId>
     </dependency>
     <!-- jBPM -->
